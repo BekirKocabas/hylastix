@@ -101,7 +101,7 @@ resource "azurerm_linux_virtual_machine" "hylastix-vm" {
   resource_group_name = azurerm_resource_group.hylastix-rg.name
   location            = azurerm_resource_group.hylastix-rg.location
   size                = "Standard_B1s"
-  admin_username      = "adminuser"
+  admin_username      = var.username
   network_interface_ids = [
     azurerm_network_interface.hylastix-nic.id,
   ]
@@ -109,8 +109,8 @@ resource "azurerm_linux_virtual_machine" "hylastix-vm" {
   custom_data = filebase64("customdata.tpl")
 
   admin_ssh_key {
-    username   = "adminuser"
-    public_key = file("~/.ssh/hylastixazurekey.pub")
+    username   = var.username
+    public_key = file(var.ssh_public_key_path)
   }
 
   os_disk {
