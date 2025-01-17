@@ -9,7 +9,6 @@ terraform {
 
 provider "azurerm" {
   features {}
-
 }
 
 resource "azurerm_resource_group" "hylastix-rg" {
@@ -128,8 +127,8 @@ resource "azurerm_linux_virtual_machine" "hylastix-vm" {
   provisioner "local-exec" {
     command = templatefile("${var.host_os}-ssh-script.tpl", { #instead of windows or linux-ssh-script.tpl use dynamic os selection
       hostname     = self.public_ip_address,
-      user         = "",
-      identityfile = ""
+      user         = var.username,
+      identityfile = var.ssh_private_key_path   
 
     })
     interpreter = var.host_os == "windows" ? ["Powershell", "-Command"] : ["bash", "-c"] #interpreter = ["Powershell", "-Command"]
