@@ -128,8 +128,8 @@ resource "azurerm_linux_virtual_machine" "hylastix-vm" {
   provisioner "local-exec" {
     command = templatefile("${var.host_os}-ssh-script.tpl", { #instead of windows or linux-ssh-script.tpl use dynamic os selection
       hostname     = self.public_ip_address,
-      user         = "adminuser",
-      identityfile = "~/.ssh/hylastixazurekey"
+      user         = "",
+      identityfile = ""
 
     })
     interpreter = var.host_os == "windows" ? ["Powershell", "-Command"] : ["bash", "-c"] #interpreter = ["Powershell", "-Command"]
